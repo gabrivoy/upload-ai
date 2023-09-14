@@ -1,0 +1,42 @@
+# @name helloworld
+GET http://localhost:3333
+
+###
+
+# @name prompts
+GET http://localhost:3333/prompts
+
+###
+
+# @name upload
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="example.mp3"
+Content-Type: audio/mpeg
+
+< ./example.mp3
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+# @name createtranscription
+POST http://localhost:3333/videos/b47db205-30b8-4696-b4cd-d6e16d503ee4/transcription
+Content-Type: application/json
+
+{
+    "prompt": "Clean Architecture, DDD"
+}
+
+###
+
+# @name generateaicompletion
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+    "videoId": "b47db205-30b8-4696-b4cd-d6e16d503ee4",
+    "temperature": 0.5,
+    "prompt": "gere um resumo da transcrição do vídeo a seguir: ```{transcription}```"
+}
